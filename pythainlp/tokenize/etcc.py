@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 """
-Enhanced Thai Character Cluster (ETCC)
+Enhanced Thai Character Cluster (ETCC) (In progress)
 Python implementation by Wannaphong Phatthiyaphaibun (19 June 2017)
 
-Reference:
+:See Also:
+
 Inrut, Jeeragone, Patiroop Yuanghirun, Sarayut Paludkong, Supot Nitsuwat, and Para Limmaneepraserth.
 "Thai word segmentation using combination of forward and backward longest matching techniques."
 In International Symposium on Communications and Information Technology (ISCIT), pp. 37-40. 2001.
@@ -74,5 +75,4 @@ def segment(text: str) -> str:
             text = re.sub(i, ii + "/", text)
 
     text = re.sub("//", "/", text)
-
     return text.split("/")

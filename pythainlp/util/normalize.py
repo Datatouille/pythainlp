@@ -3,6 +3,7 @@
 Text normalization
 """
 import re
+import warnings
 
 from pythainlp import thai_tonemarks
 
@@ -46,13 +47,28 @@ _NORMALIZE_RULE2 = [
 
 def normalize(text: str) -> str:
     """
-    Thai text normalize
+    This function normalize thai text with normalizing rules as follows:
 
-    :param str text: thai text
-    :return: thai text
-    **Example**::
-     >>> print(normalize("เเปลก")=="แปลก") # เ เ ป ล ก กับ แปลก
-     True
+        * Remove redudant symbol of tones and vowels.
+        * Subsitute ["เ", "เ"] to "แ".
+
+    :param str text: thai text to be normalized
+    :return: normalized Thai text according to the fules
+    :rtype: str
+
+    :Example:
+    ::
+
+        from pythainlp.util import normalize
+
+        normalize('สระะน้ำ')
+        # output: สระน้ำ
+
+        normalize('เเปลก')
+        # output: แปลก
+
+        normalize('นานาาา')
+        # output: นานา
     """
     for data in _NORMALIZE_RULE2:
         text = re.sub(data[0].replace("t", "[่้๊๋]"), data[1], text)
@@ -61,12 +77,34 @@ def normalize(text: str) -> str:
     return text
 
 
-def deletetone(text: str) -> str:
+def delete_tone(text: str) -> str:
     """
-    Remove tonemarks
+    This function removes Thai tonemarks from the text.
+    There are 4 tonemarks indicating 4 tones as follows:
 
-    :param str text: thai text
-    :return: thai text
+        * Down tone (Thai: ไม้เอก  _่ )
+        * Falling tone  (Thai: ไม้โท  _้ )
+        * High tone (Thai: ไม้ตรี  ​_๊ )
+        * Rising tone (Thai: ไม้จัตวา _๋ )
+
+    :param str text: text in Thai language
+    :return: text without Thai tonemarks
+    :rtype: str
+
+    :Example:
+    ::
+
+        from pythainlp.util import delete_tone
+
+        delete_tone('สองพันหนึ่งร้อยสี่สิบเจ็ดล้านสี่แสนแปดหมื่นสามพันหกร้อยสี่สิบเจ็ด')
+        # output: สองพันหนึงรอยสีสิบเจ็ดลานสีแสนแปดหมืนสามพันหกรอยสีสิบเจ็ด
     """
     chars = [ch for ch in text if ch not in thai_tonemarks]
     return "".join(chars)
+
+
+def deletetone(text: str) -> str:
+    warnings.warn(
+        "deletetone is deprecated, use delete_tone instead", DeprecationWarning
+    )
+    return delete_tone(text)

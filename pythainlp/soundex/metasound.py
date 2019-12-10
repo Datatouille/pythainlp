@@ -3,8 +3,9 @@
 Thai soundex - MetaSound system
 
 References:
-Snae & Brückner. (2009). Novel Phonetic Name Matching Algorithm with a Statistical
-Ontology for Analysing Names Given in Accordance with Thai Astrology.
+Snae & Brückner. (2009). Novel Phonetic Name Matching Algorithm with
+a Statistical Ontology for Analysing Names Given in Accordance
+with Thai Astrology.
 https://pdfs.semanticscholar.org/3983/963e87ddc6dfdbb291099aa3927a0e3e4ea6.pdf
 """
 
@@ -22,21 +23,39 @@ _C8 = "ว"  # W -> 8
 
 def metasound(text: str, length: int = 4) -> str:
     """
-    Thai MetaSound
+    This function converts Thai text into phonetic code with the
+    mactching technique called **MetaSound**
+    [#metasound]_ (combination between Soundex and Metaphone algorithms).
+    MetaSound algorithm was developed specifically for Thai language.
 
     :param str text: Thai text
-    :param int length: preferred length of the MetaSound (default is 4)
-    :return: MetaSound for the text
-    **Example**::
-        >>> from pythainlp.metasound import metasound
-        >>> metasound("ลัก")
-        'ล100'
-        >>> metasound("รัก")
-        'ร100'
-        >>> metasound("รักษ์")
-        'ร100'
-        >>> metasound("บูรณการ", 5))
-        'บ5515'
+    :param int length: preferred length of the MetaSound code (default is 4)
+
+    :return: MetaSound for the given text
+    :rtype: str
+
+    :Example:
+    ::
+
+        from pythainlp.metasound import metasound
+
+        metasound("ลัก")
+        # output: 'ล100'
+
+        metasound("รัก")
+        # output: 'ร100'
+
+        metasound("รักษ์")
+        # output: 'ร100'
+
+        metasound("บูรณการ", 5)
+        # output: 'บ5515'
+
+        metasound("บูรณการ", 6))
+        # output: 'บ55150'
+
+        metasound("บูรณการ", 4)
+        # output: 'บ551'
     """
     if not text or not isinstance(text, str):
         return ""

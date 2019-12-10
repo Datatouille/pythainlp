@@ -1,6 +1,5 @@
-﻿# -*- coding: utf-8 -*-
-
-__version__ = "2.0.7"
+# -*- coding: utf-8 -*-
+__version__ = "2.1"
 
 thai_consonants = "กขฃคฅฆงจฉชซฌญฎฏฐฑฒณดตถทธนบปผฝพฟภมยรลวศษสหฬอฮ"  # 44 chars
 thai_vowels = "ฤฦะ\u0e31าำ\u0e34\u0e35\u0e36\u0e37\u0e38\u0e39เแโใไ\u0e45\u0e47"  # 19
@@ -24,6 +23,7 @@ thai_symbols = "฿"
 thai_characters = "".join([thai_letters, thai_punctuations, thai_digits, thai_symbols])
 
 
+from pythainlp.benchmarks import benchmark
 from pythainlp.soundex import soundex
 from pythainlp.spell import correct, spell
 from pythainlp.tag import pos_tag

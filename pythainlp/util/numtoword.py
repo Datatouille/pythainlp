@@ -9,13 +9,37 @@ import math
 
 __all__ = ["bahttext", "num_to_thaiword"]
 
+_POS_CALL = ["แสน", "หมื่น", "พัน", "ร้อย", "สิบ", ""]
+_NUM_CALL = ["", "หนึ่ง", "สอง", "สาม", "สี่",
+             "ห้า", "หก", "เจ็ด", "แปด", "เก้า", ]
+_MIL_CALL = "ล้าน"
+
 
 def bahttext(number: float) -> str:
     """
-    Converts a number to Thai text and adds a suffix of "Baht" currency.
-    Precision will be fixed at two decimal places (0.00) to fits "Satang" unit.
+    This function converts a number to Thai text and adds
+    a suffix "บาท" (Baht).
+    The precision will be fixed at two decimal places (0.00)
+    to fits "สตางค์" (Satang) unit.
+    This function works similar to `BAHTTEXT` function in MS Excel.
 
-    Similar to BAHTTEXT function in Excel
+    :param float number: number to be converted into Thai Baht currency format
+    :return: text representing the amount of money in the format
+             of Thai currency
+    :rtype: str
+    :Example:
+    ::
+
+        from pythainlp.util import bahttext
+
+        bahttext(1)
+        # output: หนึ่งบาทถ้วน
+
+        bahttext(21)
+        # output: ยี่สิบเอ็ดบาทถ้วน
+
+        bahttext(200)
+        # output: สองร้อยบาทถ้วน
     """
     ret = ""
 
@@ -43,8 +67,22 @@ def bahttext(number: float) -> str:
 
 def num_to_thaiword(number: int) -> str:
     """
-    :param int number: a float number (with decimals) indicating a quantity
-    :return: a text that indicates the full amount in word form, properly ending each digit with the right term.
+    This function convert number to Thai text
+
+    :param int number: an integer number to be converted to Thai text
+    :return: text representing the number in Thai
+    :rtype: str
+
+    :Example:
+    ::
+
+        from pythainlp.util import num_to_thaiword
+
+        num_to_thaiword(1)
+        # output: หนึ่ง
+
+        num_to_thaiword(11)
+        # output: สิบเอ็ด
     """
     ret = ""
 
@@ -53,22 +91,9 @@ def num_to_thaiword(number: int) -> str:
     elif number == 0:
         ret = "ศูนย์"
     else:
-        _POS_CALL = ["แสน", "หมื่น", "พัน", "ร้อย", "สิบ", ""]
-        _NUM_CALL = [
-            "",
-            "หนึ่ง",
-            "สอง",
-            "สาม",
-            "สี่",
-            "ห้า",
-            "หก",
-            "เจ็ด",
-            "แปด",
-            "เก้า",
-        ]
 
         if number > 1000000:
-            ret += num_to_thaiword(int(number / 1000000)) + "ล้าน"
+            ret += num_to_thaiword(int(number / 1000000)) + _MIL_CALL
             number = int(math.fmod(number, 1000000))
         divider = 100000
 

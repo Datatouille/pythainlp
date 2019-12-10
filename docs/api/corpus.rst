@@ -22,7 +22,6 @@ Modules
 TNC
 ---
 
-.. autofunction:: pythainlp.corpus.tnc.word_freq
 .. autofunction:: pythainlp.corpus.tnc.word_freqs
 
 TTC
@@ -46,3 +45,9 @@ Wordnet
 .. autofunction:: pythainlp.corpus.wordnet.wup_similarity
 .. autofunction:: pythainlp.corpus.wordnet.morphy
 .. autofunction:: pythainlp.corpus.wordnet.custom_lemmas
+
+Definition
+++++++++++
+
+Synset
+    a set of synonyms that share a common meaning.

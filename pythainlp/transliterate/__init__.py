@@ -3,13 +3,39 @@
 
 def romanize(text: str, engine: str = "royin") -> str:
     """
-    Rendering Thai words in the Latin alphabet or "romanization",
-    using the Royal Thai General System of Transcription (RTGS),
-    which is the official system published by the Royal Institute of Thailand.
-    ถอดเสียงภาษาไทยเป็นอักษรละติน
+    This function renders Thai words in the Latin alphabet or "romanization",
+    using the Royal Thai General System of Transcription (RTGS)
+    [#rtgs_transcription]_. RTGS is the official system published
+    by the Royal Institute of Thailand. (Thai: ถอดเสียงภาษาไทยเป็นอักษรละติน)
+
     :param str text: Thai text to be romanized
-    :param str engine: 'royin' (default) or 'thai2rom'. 'royin' uses the Royal Thai General System of Transcription issued by Royal Institute of Thailand. 'thai2rom' is deep learning Thai romanization (require keras).
+    :param str engine: 'royin' (default) or 'thai2rom'.
+
     :return: A string of Thai words rendered in the Latin alphabet.
+    :rtype: str
+
+    :Options for engines:
+        * *royin* - based on the Royal Thai General System of Transcription
+          issued by Royal Institute of Thailand.
+        * *thai2rom* - a deep learning-based Thai romanization engine
+          (require PyTorch).
+
+    :Example:
+    ::
+
+        from pythainlp.transliterate import romanize
+
+        romanize("สามารถ", engine="royin")
+        # output: 'samant'
+
+        romanize("สามารถ", engine="thai2rom")
+        # output: 'samat'
+
+        romanize("ภาพยนตร์", engine="royin")
+        # output: 'phapn'
+
+        romanize("ภาพยนตร์", engine="thai2rom")
+        # output: 'phapphayon'
     """
 
     if not text or not isinstance(text, str):
@@ -25,10 +51,36 @@ def romanize(text: str, engine: str = "royin") -> str:
 
 def transliterate(text: str, engine: str = "ipa") -> str:
     """
-    Transliteration of Thai text
+    This function transliterates Thai text.
+
     :param str text: Thai text to be transliterated
-    :param str engine: 'ipa' (International Phonetic Alphabet; default) or 'icu'.
-    :return: A string of Internaitonal Phonetic Alphabets indicating how the text should be pronounced.
+    :param str engine: 'ipa' (International Phonetic Alphabet; default)
+                       or 'icu'.
+
+    :return: A string of Internaitonal Phonetic Alphabets indicating
+             how the text should be pronounced.
+    :rtype: str
+
+    :Options for engines:
+        * *ipa* - (default) International Phonetic Alphabet (IPA)
+        * *icu* - International Components for Unicode (ICU)
+
+    :Example:
+    ::
+
+        from pythainlp.transliterate import transliterate
+
+        transliterate("สามารถ", engine="ipa")
+        # output: 'saːmaːrot'
+
+        transliterate("สามารถ", engine="icu")
+        # output: 's̄āmārt̄h'
+
+        transliterate("ภาพยนตร์", engine="ipa")
+        # output: 'pʰaːpjanot'
+
+        transliterate("ภาพยนตร์", engine="icu")
+        # output: 'p̣hāphyntr̒'
     """
 
     if not text or not isinstance(text, str):

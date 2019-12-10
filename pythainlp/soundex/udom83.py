@@ -31,11 +31,33 @@ _TRANS2 = str.maketrans(
 
 def udom83(text: str) -> str:
     """
-    Thai soundex, using Udom83 system.
-    Wannee Udompanich [Master Thesis, Chula (1983)]
+    This function converts Thai text into phonetic code with the
+    Thai soundex algorithm named **Udom83** [#udom83]_.
 
     :param str text: Thai word
+
     :return: Udom83 soundex
+    :rtype: str
+
+    :Example:
+    ::
+
+        from pythainlp.soundex import udom83
+
+        udom83("ลัก")
+        # output : 'ล100'
+
+        udom83("รัก")
+        # output: 'ร100'
+
+        udom83("รักษ์")
+        # output: 'ร100'
+
+        udom83("บูรณการ")
+        # output: 'บ5515'
+
+        udom83("ปัจจุบัน")
+        # output: 'ป775300'
     """
 
     if not text or not isinstance(text, str):

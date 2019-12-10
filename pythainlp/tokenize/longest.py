@@ -1,16 +1,19 @@
 # -*- coding: utf-8 -*-
 """
-Longest-matching Thai word segmentation
+Dictionary-based longest-matching Thai word segmentation. Implementation based
+on the code from Patorn Utenpattanun.
 
-Based on code from
-https://github.com/patorn/thaitokenizer/blob/master/thaitokenizer/tokenizer.py
+:See Also:
+    * `GitHub Repository \
+       <https://github.com/patorn/thaitokenizer/blob/master/thaitokenizer/tokenizer.py>`_
+
 """
 import re
 from typing import List
 
 from pythainlp.tokenize import DEFAULT_DICT_TRIE
 
-from marisa_trie import Trie
+from .trie import Trie
 
 _FRONT_DEP_CHAR = [
     "ะ",
@@ -139,8 +142,14 @@ class LongestMatchTokenizer(object):
         return tokens
 
 
-def segment(text: str, custom_dict: Trie = None) -> List[str]:
-    """ตัดคำภาษาไทยด้วยวิธี longest matching"""
+def segment(text: str, custom_dict: Trie = DEFAULT_DICT_TRIE) -> List[str]:
+    """
+    Dictionary-based longest matching word segmentation.
+
+    :param str text: text to be tokenized to words
+    :param pythainlp.trie.Trie custom_dict: dictionary for tokenization
+    :return: list of words, tokenized from the text
+    """
     if not text or not isinstance(text, str):
         return []
 

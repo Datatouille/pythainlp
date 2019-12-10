@@ -10,6 +10,12 @@ Modules
 .. autofunction:: correct
 .. autofunction:: spell
 .. autoclass:: NorvigSpellChecker
+   :special-members:
    :members:
 .. autodata:: DEFAULT_SPELL_CHECKER
-   :annotation: = Default instance of standard NorvigSpellChecker, using word list from Thai National Corpus
+   :annotation: = Default instance of standard NorvigSpellChecker, using word list from Thai National Corpus: http://www.arts.chula.ac.th/ling/tnc/
+
+References
+----------
+
+.. [#norvig_spellchecker]  Peter Norvig (2007). `How to Write a Spelling Corrector <http://norvig.com/spell-correct.html>`_.

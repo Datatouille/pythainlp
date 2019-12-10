@@ -55,41 +55,62 @@ _spell_digit = {
     "เก้า": "9",
 }
 
+_arabic_thai_translate_table = str.maketrans(_arabic_thai)
+_thai_arabic_translate_table = str.maketrans(_thai_arabic)
+_digit_spell_translate_table = str.maketrans(_digit_spell)
+
 
 def thai_digit_to_arabic_digit(text: str) -> str:
     """
+    This function convert Thai digits (i.e. ๑, ๓, ๑๐) to Arabic digits
+    (i.e. 1, 3, 10).
+
     :param str text: Text with Thai digits such as '๑', '๒', '๓'
-    :return: Text with Thai digits being converted to Arabic digits such as '1', '2', '3'
+    :return: Text with Thai digits being converted to Arabic digits
+             such as '1', '2', '3'
+    :rtype: str
+
+    :Example:
+    ::
+
+        from pythainlp.util import thai_digit_to_arabic_digit
+
+        text = 'เป็นจำนวน ๑๒๓,๔๐๐.๒๕ บาท'
+
+        thai_digit_to_arabic_digit(text)
+        # output: เป็นจำนวน 123,400.25 บาท
     """
     if not text or not isinstance(text, str):
         return ""
 
-    newtext = []
-    for ch in text:
-        if ch in _thai_arabic:
-            newtext.append(_thai_arabic[ch])
-        else:
-            newtext.append(ch)
-
-    return "".join(newtext)
+    return text.translate(_thai_arabic_translate_table)
 
 
 def arabic_digit_to_thai_digit(text: str) -> str:
     """
+    This function convert Arabic digits (i.e. 1, 3, 10) to Thai digits
+    (i.e. ๑, ๓, ๑๐).
+
     :param str text: Text with Arabic digits such as '1', '2', '3'
-    :return: Text with Arabic digits being converted to Thai digits such as '๑', '๒', '๓'
+    :return: Text with Arabic digits being converted to Thai digits
+             such as '๑', '๒', '๓'
+    :rtype: str
+
+    :Example:
+    ::
+
+        from pythainlp.util import arabic_digit_to_thai_digit
+
+        text = 'เป็นจำนวน 123,400.25 บาท'
+
+        arabic_digit_to_thai_digit(text)
+        # output: เป็นจำนวน ๑๒๓,๔๐๐.๒๕ บาท
     """
     if not text or not isinstance(text, str):
         return ""
 
-    newtext = []
-    for ch in text:
-        if ch in _arabic_thai:
-            newtext.append(_arabic_thai[ch])
-        else:
-            newtext.append(ch)
-
-    return "".join(newtext)
+    # Convert Arabic to Thai numerals
+    return text.translate(_arabic_thai_translate_table)
 
 
 def digit_to_text(text: str) -> str:
@@ -100,23 +121,42 @@ def digit_to_text(text: str) -> str:
     if not text or not isinstance(text, str):
         return ""
 
-    newtext = []
-    for ch in text:
-        if ch in _thai_arabic:
-            ch = _thai_arabic[ch]
-
-        if ch in _digit_spell:
-            newtext.append(_digit_spell[ch])
-        else:
-            newtext.append(ch)
-
-    return "".join(newtext)
+    # Convert Thai numerals to Arabic
+    text = text.translate(_thai_arabic_translate_table)
+    # Spell out Arabic numerals in Thai text
+    text = text.translate(_digit_spell_translate_table)
+    return text
 
 
 def text_to_arabic_digit(text: str) -> str:
     """
+    This function convert Thai spelled out digits to Arabic digits.
+
     :param text: A digit spelled out in Thai
-    :return: An Arabic digit such as '1', '2', '3'
+    :return: An Arabic digit such as '1', '2', '3' if the text is
+             Thai digit spelled out (ศูนย์, หนึ่ง, สอง, ..., เก้า).
+             Otherwise, it returns an empty string.
+    :rtype: str
+
+    :Example:
+    ::
+
+        from pythainlp.util import text_to_arabic_digit
+
+        text_to_arabic_digit("ศูนย์")
+        # output: 0
+        text_to_arabic_digit("หนึ่ง")
+        # output: 1
+        text_to_arabic_digit("แปด")
+        # output: 8
+        text_to_arabic_digit("เก้า")
+        # output: 9
+
+        # For text that is not Thai digit spelled out
+        text_to_arabic_digit("สิบ") == ""
+        # output: True
+        text_to_arabic_digit("เก้าร้อย") == ""
+        # output: True
     """
     if not text or text not in _spell_digit:
         return ""
@@ -126,7 +166,32 @@ def text_to_arabic_digit(text: str) -> str:
 
 def text_to_thai_digit(text: str) -> str:
     """
+    This function convert Thai spelled out digits to Thai digits.
+
     :param text: A digit spelled out in Thai
-    :return: A Thai digit such as '๑', '๒', '๓'
+    :return: A Thai digit such as '๑', '๒', '๓'  if the text is Thai digit
+             spelled out (ศูนย์, หนึ่ง, สอง, ..., เก้า).
+             Otherwise, it returns an empty string.
+    :rtype: str
+
+    :Example:
+    ::
+
+        from pythainlp.util import text_to_thai_digit
+
+        text_to_thai_digit("ศูนย์")
+        # output: ๐
+        text_to_thai_digit("หนึ่ง")
+        # output: ๑
+        text_to_thai_digit("แปด")
+        # output: ๘
+        text_to_thai_digit("เก้า")
+        # output: ๙
+
+        # For text that is not Thai digit spelled out
+        text_to_thai_digit("สิบ") == ""
+        # output: True
+        text_to_thai_digit("เก้าร้อย") == ""
+        # output: True
     """
     return arabic_digit_to_thai_digit(text_to_arabic_digit(text))
